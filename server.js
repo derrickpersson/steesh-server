@@ -1,6 +1,6 @@
 const express = require('express')
 const bodyParser = require("body-parser");
-
+var request = require('request');
 
 const app = express()
 
@@ -19,9 +19,13 @@ app.get('/', (req, res) => res.render('index'))
 //   -> PII: Save website at the URL as PDF & send via email to specified email
 //   -> PIII: Build chrome extension; button to click to send to PDF
 
-app.post('/getPDF', (request, response) => {
-  console.log(request.body.URL);
-  request.body.URL
+app.post('/getPDF', (req, res) => {
+  console.log(req.body.URL);
+  request(req.body.URL, function (error, response, body) {
+    console.log('error:', error); // Print the error if one occurred
+    console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+    console.log('body:', body); // Print the HTML for the Google homepage.
+  });
   response.send("Getting website as PDF now...");
 })
 

@@ -1,8 +1,9 @@
 const express = require('express')
 const bodyParser = require("body-parser");
-var request = require('request');
+const request = require('request');
+const fs = require('fs');
 
-const app = express()
+const app = express();
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({
@@ -21,7 +22,7 @@ app.get('/', (req, res) => res.render('index'))
 
 app.post('/getPDF', (req, res) => {
   console.log(req.body.URL);
-  request(req.body.URL, function (error, response, body) {
+  const article = request(req.body.URL, function (error, response, body) {
     console.log('error:', error); // Print the error if one occurred
     console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
     console.log('body:', body); // Print the HTML for the Google homepage.

@@ -2,15 +2,7 @@ const express = require('express')
 const bodyParser = require("body-parser");
 const request = require('request');
 const fs = require('fs');
-const { spawn } = require('child_process');
-
-
-
-const page = require('webpage').create();
-page.open('http://github.com/', function() {
-  page.render('github.png');
-  phantom.exit();
-});
+const { spawn, execFile } = require('child_process');
 
 
 // const ls = spawn('ls', ['-lah', './']);
@@ -53,19 +45,13 @@ app.post('/getPDF', (req, res) => {
   //   console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
   //   console.log('body:', body); // Print the HTML for the Google homepage.
   // });
-
-  const wkhtmltopdf = spawn('wkhtmltopdf', ['-print-media-type', '--zoom 3', req.body.URL, 'medium.pdf']);
-
-  wkhtmltopdf.stdout.on('data', (data) => {
-    console.log(`stdout: ${data}`);
-  });
-
-  wkhtmltopdf.stderr.on('data', (data) => {
-    console.log(`stderr: ${data}`);
-  });
-
-  wkhtmltopdf.on('close', (code) => {
-    console.log(`child process exited with code ${code}`);
+  execFile("phantomjs rasterize.js", req.body.URL, '"medium.pdf"', (error, stdout, stderr) => {
+    if (error) {
+      console.error(`exec error: ${error}`);
+      return;
+    }
+    console.log(`stdout: ${stdout}`);
+    console.log(`stderr: ${stderr}`);
   });
 
 

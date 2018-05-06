@@ -34,18 +34,12 @@ app.get('/', (req, res) => res.render('index'))
 // Routes:
 
 // /web/[URL]
-//   -> MVP: Save website at the URL as PDF
+//   -> MVP: Save website at the URL as PDF :D
 //   -> PII: Save website at the URL as PDF & send via email to specified email
 //   -> PIII: Build chrome extension; button to click to send to PDF
 
 app.post('/getPDF', (req, res) => {
-  //console.log(req.body.URL);
-  // const article = request(req.body.URL, function (error, response, body) {
-  //   console.log('error:', error); // Print the error if one occurred
-  //   console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-  //   console.log('body:', body); // Print the HTML for the Google homepage.
-  // });
-  execFile("phantomjs rasterize.js", req.body.URL, '"medium.pdf"', (error, stdout, stderr) => {
+  execFile("phantomjs", ["rasterize.js", req.body.URL, "medium.pdf", "Letter"], (error, stdout, stderr) => {
     if (error) {
       console.error(`exec error: ${error}`);
       return;
@@ -55,12 +49,8 @@ app.post('/getPDF', (req, res) => {
   });
 
 
-  response.send("Getting website as PDF now...");
+  res.send("Getting website as PDF now...");
 })
-
-// Script to convert HTML to PDF
-// wkhtmltopdf --disable-smart-shrinking --print-media-type --zoom 3 https://electricliterature.com/rejecting-a-book-by-its-cover-c0a92ed1f76f medium2.pdf
-
 
 // /signup
 //   -> Sign up a new account

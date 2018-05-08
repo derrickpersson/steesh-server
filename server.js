@@ -4,23 +4,6 @@ const request = require('request');
 const fs = require('fs');
 const { spawn, execFile } = require('child_process');
 
-
-// const ls = spawn('ls', ['-lah', './']);
-
-// ls.stdout.on('data', (data) => {
-//   console.log(`stdout: ${data}`);
-// });
-
-// ls.stderr.on('data', (data) => {
-//   console.log(`stderr: ${data}`);
-// });
-
-// ls.on('close', (code) => {
-//   console.log(`child process exited with code ${code}`);
-// });
-
-
-
 const app = express();
 
 app.set("view engine", "ejs");
@@ -44,10 +27,7 @@ app.post('/getPDF', (req, res) => {
       console.error(`exec error: ${error}`);
       return;
     }
-    console.log(`stdout: ${stdout}`);
-    console.log(`stderr: ${stderr}`);
-  });
-
+});
 
   res.send("Getting website as PDF now...");
 })

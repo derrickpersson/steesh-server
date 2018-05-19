@@ -12,6 +12,7 @@ const filepath = path.join(__dirname, 'medium.pdf');
 let data = {
   from: 'Derrick Persson <derrickpersson@gmail.com>',
   to: 'derrickpersson@kindle.com',
+  cc: 'derrickpersson@gmail.com',
   subject: 'Convert',
   text: 'Sending article to Kindle',
   attachment: filepath

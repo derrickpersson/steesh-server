@@ -14,4 +14,13 @@ chrome.runtime.onInstalled.addListener(function() {
     { user: user }, function() {
     console.log("User: ", user);
   });
+
+  chrome.runtime.onMessage.addListener(
+    function(message, callback) {
+      if (message == "runContentScript"){
+        chrome.tabs.executeScript({
+          code: 'console.log("Hello this works!");'
+        });
+      }
+   });
 });

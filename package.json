@@ -20,7 +20,9 @@
     "mailgun-js": "^0.18.0",
     "pg": "^7.4.1",
     "phantomjs": "^2.1.7",
-    "request": "^2.85.0"
+    "regex": "^0.1.1",
+    "request": "^2.85.0",
+    "url-parse": "^1.4.0"
   },
   "devDependencies": {
     "nodemon": "^1.17.3"

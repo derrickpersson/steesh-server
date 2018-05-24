@@ -13,7 +13,6 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
-// parse application/json
 app.use(bodyParser.json())
 
 app.use(function(req, res, next) {
@@ -30,15 +29,7 @@ let user = {
   kindleEmail: "derrickpersson@kindle.com"
 }
 
-
 app.get('/', (req, res) => res.render('index'))
-
-// Routes:
-
-// /web/[URL]
-//   -> MVP: Save website at the URL as PDF :D
-//   -> PII: Save website at the URL as PDF & send via email to specified email
-//   -> PIII: Build chrome extension; button to click to send to PDF
 
 app.post('/getPDF', (req, res) => {
   console.log("Req: ", req.body);
@@ -48,12 +39,9 @@ app.post('/getPDF', (req, res) => {
       console.error(`exec error: ${error}`);
       return;
     }
-    console.log(parsedTitle);
 
-    // sendToKindle(user, req.body.title, function(body){
-    //   console.log("Success!");
-    //   console.log("body: ", body);
-    // })
+    sendToKindle(user, req.body.title, function(body){
+    })
   })
 
   res.send("Getting website as PDF now...");
@@ -65,18 +53,9 @@ app.get('/hello', (req, res) => {
   res.send("Hello!");
 })
 
-// /signup
-//   -> Sign up a new account
-
 app.get('/signup', (request, response) => {
   response.send("Sign up here!");
 })
-
-// /profile
-//   -> Set:
-//     - Kindle Email
-//     - My email?
-//     - Reset my password?
 
 app.get('/profile', (request, response) => {
   response.send("View your information here.");

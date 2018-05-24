@@ -26,33 +26,3 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 });
-
-
-
-// chrome.storage.sync.get('user', function(data){
-
-// })
-
-// let button = document.getElementById('submit');
-//   chrome.tabs.query({
-//     active: true,
-//     currentWindow: true
-//   }, function(tabs){
-//     chrome.tabs.executeScript(tabs[0].id, {
-//       code: 'function(){console.log("Hello World!");}()'
-//     });
-//   });
-// }
-
-// articleForm.onSubmit = function(element){
-//   let form = element.target.value;
-//   chrome.tabs.query({
-//     active: true,
-//     currentWindow: true
-//   }, function(tabs){
-//     chrome.tabs.executeScript(tabs[0].id, {
-//       code: 'console.log("Hello World!");'
-//     });
-//   }
-//   )
-// }

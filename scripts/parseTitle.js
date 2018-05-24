@@ -1,11 +1,4 @@
-'use strict';
-
 const URL = require('url-parse');
-// const Regex = require("regex");
-
-const articleURL = new URL("https://betterhumans.coach.me/get-happy-like-the-danes-a-practical-guide-to-more-hygge-in-your-life-10e1f0b5363d");
-
-// const findHTMLClause = new Regex(/\./)
 
 function parseTitle(url){
   let articleURL = new URL(url);
@@ -27,9 +20,6 @@ function getLastFullElement(array){
   let lastFullIndex = (lastElement.length > 0) ? lastElement : secondLastElement;
   return lastFullIndex;
 }
-
-
-
 
 module.exports = {
   parseTitle: parseTitle

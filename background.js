@@ -15,12 +15,16 @@ chrome.runtime.onInstalled.addListener(function() {
     console.log("User: ", user);
   });
 
-  chrome.runtime.onMessage.addListener(
-    function(message, callback) {
-      if (message == "runContentScript"){
-        chrome.tabs.executeScript({
-          code: 'console.log("Hello this works!");'
-        });
-      }
-   });
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", "http://127.0.0.1:8080/hello", true);
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState == 4) {
+      // JSON.parse does not evaluate the attacker's scripts.
+      var resp = JSON.parse(xhr.responseText);
+    }
+  }
+  xhr.send();
+
 });
+
+

@@ -1,27 +1,31 @@
 document.addEventListener('DOMContentLoaded', function() {
   let articleSubmit = document.getElementById('submitArticleBtn');
   articleSubmit.addEventListener('click', function(){
-    chrome.tabs.create({url: 'google.com'}, function(tab){
-      // console.log(tab);
-    })
-    // chome.tabs.getselected(null, function(tab){
-    //   let form = document.createElement('form');
-    //   form.action = "localhost:8080/getPDF";
-    //   form.method = "post";
-    //   let inputURL = document.createElement('input');
-    //   inputURL.type = "hidden";
-    //   inputURL.name = "url";
-    //   inputURL.value = tab.url;
-    //   form.appendChild(input);
-    //   let inputTitle = document.createElement('input');
-    //   inputTitle.type = "hidden";
-    //   inputTitle.name = "title";
-    //   inputTitle.value = "Testing";
-    //   document.body.appendChild(form);
-    //   form.submit();
-    // })
+    chrome.tabs.query({
+      active: true,
+      currentWindow: true
+    }, function(tabs){
+      let data = {
+        URL: tabs[0].url,
+        title: "Testing"
+      }
+      console.log("Data: ", data);
+      var xhr = new XMLHttpRequest();
+      // xhr.withCredentials = true;
+      xhr.open("POST", "http://127.0.0.1:8080/getPDF", true);
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState == 4) {
+          // JSON.parse does not evaluate the attacker's scripts.
+          // var resp = JSON.parse(xhr.responseText);
+        }
+      }
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.send(JSON.stringify(data));
+    });
   });
-}
+
+
+});
 
 
 

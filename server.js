@@ -42,17 +42,18 @@ app.get('/', (req, res) => res.render('index'))
 
 app.post('/getPDF', (req, res) => {
   console.log("Req: ", req.body);
-  let parsedTitle = parseTitle(req.body.title);
+  let parsedTitle = parseTitle(req.body.URL);
   execFile("phantomjs", ["rasterize.js", req.body.URL, `./results/${parsedTitle}.pdf`, "Letter"], (error, stdout, stderr) => {
     if (error) {
       console.error(`exec error: ${error}`);
       return;
     }
+    console.log(parsedTitle);
 
-    sendToKindle(user, req.body.title, function(body){
-      console.log("Success!");
-      console.log("body: ", body);
-    })
+    // sendToKindle(user, req.body.title, function(body){
+    //   console.log("Success!");
+    //   console.log("body: ", body);
+    // })
   })
 
   res.send("Getting website as PDF now...");

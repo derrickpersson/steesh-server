@@ -6,8 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
       currentWindow: true
     }, function(tabs){
       let data = {
-        URL: tabs[0].url,
-        title: "Testing"
+        URL: tabs[0].url
       }
       console.log("Data: ", data);
       var xhr = new XMLHttpRequest();

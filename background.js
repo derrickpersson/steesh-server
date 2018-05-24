@@ -15,16 +15,16 @@ chrome.runtime.onInstalled.addListener(function() {
     console.log("User: ", user);
   });
 
-  var xhr = new XMLHttpRequest();
-  xhr.open("GET", "http://127.0.0.1:8080/hello", true);
-  xhr.onreadystatechange = function() {
-    if (xhr.readyState == 4) {
-      // JSON.parse does not evaluate the attacker's scripts.
-      var resp = JSON.parse(xhr.responseText);
+  chrome.storage.local.get('signed_in', function(data) {
+    if (data.signed_in) {
+      chrome.browserAction.setPopup({popup: 'popup.html'});
+    } else {
+      chrome.browserAction.setPopup({popup: 'popup_sign_in.html'});
     }
-  }
-  xhr.send();
+  });
 
 });
+
+
 
 

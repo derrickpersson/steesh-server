@@ -31,8 +31,7 @@ chrome.runtime.onInstalled.addListener(function() {
       var resp = JSON.parse(xhr.responseText);
       chrome.storage.local.set({
         'apiKey': resp.OAUTH_CLIENT_SECRET,
-        'clientId': resp.OAUTH_CLIENTID,
-        'scope': 'profile'
+        'clientId': resp.OAUTH_CLIENTID
       })
     }
   };

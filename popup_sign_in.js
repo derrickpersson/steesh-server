@@ -20,13 +20,15 @@ document.addEventListener('DOMContentLoaded', function() {
   }, false);
 
   function start() {
-    
+  chrome.storage.local.get(['apiKey', 'clientId'], function(data) {
+    console.log("Data: ", data);
+  });
   // 2. Initialize the JavaScript client library.
   gapi.client.init({
-      'apiKey': process.env.OAUTH_CLIENT_SECRET,
+      'apiKey': 'test',
       // clientId and scope are optional if auth is not required.
-      'clientId': process.env.OAUTH_CLIENTID,
-      'scope': 'profile',
+      'clientId': 'test2',
+      'scope': 'profile email openid',
     }).then(function() {
       // 3. Initialize and make the API request.
       return gapi.client.request({

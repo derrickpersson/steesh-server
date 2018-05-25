@@ -47,10 +47,13 @@ app.post('/getPDF', (req, res) => {
   res.send("Getting website as PDF now...");
 })
 
-
-app.get('/hello', (req, res) => {
-  console.log("It was here!");
-  res.send("Hello!");
+app.get('/authenticate', (req, res) => {
+  let authData = JSON.stringify({
+    OAUTH_CLIENT_SECRET: process.env.OAUTH_CLIENT_SECRET,
+    OAUTH_CLIENTID: process.env.OAUTH_CLIENTID
+  })
+  res.status(200);
+  res.send(authData);
 })
 
 app.get('/signup', (request, response) => {

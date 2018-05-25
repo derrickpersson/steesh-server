@@ -12,7 +12,6 @@ var user = {
 chrome.runtime.onInstalled.addListener(function() {
   chrome.storage.sync.set(
     { user: user }, function() {
-    console.log("User: ", user);
   });
 
   chrome.storage.local.get('signed_in', function(data) {
@@ -22,6 +21,24 @@ chrome.runtime.onInstalled.addListener(function() {
       chrome.browserAction.setPopup({popup: 'popup_sign_in.html'});
     }
   });
+
+  var xhr = new XMLHttpRequest();
+  // xhr.withCredentials = true;
+  xhr.open("GET", "http://127.0.0.1:8080/authenticate", true);
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState == 4) {
+      // JSON.parse does not evaluate the attacker's scripts.
+      var resp = JSON.parse(xhr.responseText);
+      chrome.storage.local.set({
+        'apiKey': resp.OAUTH_CLIENT_SECRET,
+        'clientId': resp.OAUTH_CLIENTID,
+        'scope': 'profile'
+      })
+    }
+  };
+  xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.send();
+
 
 });
 

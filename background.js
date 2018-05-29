@@ -19,7 +19,7 @@ chrome.runtime.onInstalled.addListener(function() {
     if (data.signed_in) {
       chrome.browserAction.setPopup({popup: 'popup.html'});
     } else {
-      chrome.browserAction.setPopup({popup: 'popup_sign_in.html'});
+      chrome.tabs.create({url: 'sign_up.html'});
     }
   });
 

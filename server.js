@@ -5,9 +5,11 @@ const fs = require('fs');
 const { spawn, execFile } = require('child_process');
 const { sendToKindle } = require('./mailgun.js');
 const { parseTitle } = require('./scripts/parseTitle');
+const ENV = process.env.ENV || "development";
+const knexConfig = require("./knexfile");
 const knex = require("knex")(knexConfig[ENV]);
 const knexLogger = require('knex-logger');
-const datahelper = require('./datahelpers.js')(knex);
+const datahelpers = require('./datahelpers.js')(knex);
 
 const app = express();
 
@@ -54,6 +56,7 @@ app.post('/getPDF', (req, res) => {
 app.post('/signup', (request, response) => {
   let data = request.body;
   datahelpers.insertUser(data);
+  console.log('Submitted User: ', data);
   response.send("Everything is good!");
 })
 

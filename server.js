@@ -17,6 +17,7 @@ app.use(bodyParser.json())
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "chrome-extension://ecajeoanappgfgmplaoidemaognieimh");
+  res.header("Access-Control-Allow-Origin", "chrome-extension://ccodnhhlbdbnoekahoelgmgkdfgofnpp");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
@@ -47,14 +48,9 @@ app.post('/getPDF', (req, res) => {
   res.send("Getting website as PDF now...");
 })
 
-
-app.get('/hello', (req, res) => {
-  console.log("It was here!");
-  res.send("Hello!");
-})
-
-app.get('/signup', (request, response) => {
-  response.send("Sign up here!");
+app.post('/signup', (request, response) => {
+  let data = request.body;
+  
 })
 
 app.get('/profile', (request, response) => {

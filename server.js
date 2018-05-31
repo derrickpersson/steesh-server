@@ -59,10 +59,4 @@ app.get('/profile', (request, response) => {
   response.send("View your information here.");
 })
 
-app.get('/users', (request, response) => {
-  let user = datahelpers.getUserByEmail("derrickpersson@gmail.com").then((data) => {
-    console.log(data);
-  });
-})
-
 app.listen(8080, () => console.log('Example app listening on port 8080!'))

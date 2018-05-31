@@ -29,14 +29,6 @@ app.use(function(req, res, next) {
   next();
 });
 
-
-let user = {
-  firstName: "Derrick",
-  lastName: "Persson",
-  email: "derrickpersson@gmail.com",
-  kindleEmail: "derrickpersson@kindle.com"
-}
-
 app.get('/', (req, res) => res.render('index'))
 
 app.post('/getPDF', (req, res) => {

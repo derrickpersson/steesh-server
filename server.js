@@ -18,6 +18,8 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
+app.use(knexLogger(knex));
+
 app.use(bodyParser.json())
 
 app.use(function(req, res, next) {
@@ -55,13 +57,20 @@ app.post('/getPDF', (req, res) => {
 
 app.post('/signup', (request, response) => {
   let data = request.body;
-  datahelpers.insertUser(data);
-  console.log('Submitted User: ', data);
-  response.send("Everything is good!");
+  datahelpers.insertUser(data).then((data) => {
+    console.log('Submitted User: ', data);
+    response.send("Everything is good!");
+  })
 })
 
 app.get('/profile', (request, response) => {
   response.send("View your information here.");
+})
+
+app.get('/users', (request, response) => {
+  let user = datahelpers.getUserByEmail("derrickpersson@gmail.com").then((data) => {
+    console.log(data);
+  });
 })
 
 app.listen(8080, () => console.log('Example app listening on port 8080!'))

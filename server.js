@@ -3,13 +3,13 @@ const bodyParser = require("body-parser");
 const request = require('request');
 const fs = require('fs');
 const { spawn, execFile } = require('child_process');
-const { sendToKindle } = require('./mailgun.js');
+const { sendToKindle } = require('./scripts/mailgun.js');
 const { parseTitle } = require('./scripts/parseTitle');
 const ENV = process.env.ENV || "development";
-const knexConfig = require("./knexfile");
+const knexConfig = require("./db/knexfile");
 const knex = require("knex")(knexConfig[ENV]);
 const knexLogger = require('knex-logger');
-const datahelpers = require('./datahelpers.js')(knex);
+const datahelpers = require('./scripts/datahelpers.js')(knex);
 
 const app = express();
 
@@ -40,7 +40,7 @@ app.post('/getPDF', (req, res) => {
       return;
     }
 
-    sendToKindle(user, req.body.title, function(body){
+    sendToKindle(user, parsedTitle, function(body){
     })
   })
 

@@ -48,10 +48,7 @@ app.post('/getPDF', (req, res) => {
 
 app.post('/signup', (request, response) => {
   let data = request.body;
-  datahelpers.insertUser(data).then((data) => {
-    console.log('Submitted User: ', data);
-    response.send("Everything is good!");
-  })
+  datahelpers.insertUser(data);
 })
 
 app.get('/profile', (request, response) => {

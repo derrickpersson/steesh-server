@@ -3,8 +3,13 @@ const bodyParser = require("body-parser");
 const request = require('request');
 const fs = require('fs');
 const { spawn, execFile } = require('child_process');
-const { sendToKindle } = require('./mailgun.js');
+const { sendToKindle } = require('./scripts/mailgun.js');
 const { parseTitle } = require('./scripts/parseTitle');
+const ENV = process.env.ENV || "development";
+const knexConfig = require("./db/knexfile");
+const knex = require("knex")(knexConfig[ENV]);
+const knexLogger = require('knex-logger');
+const datahelpers = require('./scripts/datahelpers.js')(knex);
 
 const app = express();
 
@@ -13,21 +18,15 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
+app.use(knexLogger(knex));
+
 app.use(bodyParser.json())
 
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "chrome-extension://ecajeoanappgfgmplaoidemaognieimh");
+  res.header("Access-Control-Allow-Origin", "chrome-extension://loffpcbdmcgipklnlkoddaeomfhhmfod");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
-
-
-let user = {
-  firstName: "Derrick",
-  lastName: "Persson",
-  email: "derrickpersson@gmail.com",
-  kindleEmail: "derrickpersson@kindle.com"
-}
 
 app.get('/', (req, res) => res.render('index'))
 
@@ -40,7 +39,7 @@ app.post('/getPDF', (req, res) => {
       return;
     }
 
-    sendToKindle(user, req.body.title, function(body){
+    sendToKindle(user, parsedTitle, function(body){
     })
   })
 
@@ -56,8 +55,12 @@ app.get('/authenticate', (req, res) => {
   res.send(authData);
 })
 
-app.get('/signup', (request, response) => {
-  response.send("Sign up here!");
+app.post('/signup', (request, response) => {
+  let data = request.body;
+  datahelpers.insertUser(data).then((data) => {
+    console.log('Submitted User: ', data);
+    response.send("Everything is good!");
+  })
 })
 
 app.get('/profile', (request, response) => {

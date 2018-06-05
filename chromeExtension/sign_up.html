@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .btn {
+      background-color: hotpink;
+      padding: 1.1em;
+      margin: 0.3em;
+      width: 100%;
+    }
+  </style>
+  <script src="sign_up.js"></script>
+</head>
+<body>
+  <h3> Log in to Steesh </h3>
+  <form id="logInForm">
+    <label for="firstName">First Name:</label>
+    <input id="firstName" type="text" name="firstName" required>
+    <label for="lastName">Last Name:</label>
+    <input id="lastName" type="text" name="lastName" required>
+    <label for="email">Email:</label>
+    <input id="email" type="text" name="email" required pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$">
+    <label for="password">Password:</label>
+    <input id="password" type="password" name="password">
+    <label for="password2">Retype Password:</label>
+    <input id="password2" type="password" name="password">
+    <label for="kindleEmail">Kindle Email:</label>
+    <input id="kindleEmail" type="text" name="email" required pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$">
+    <input id="formButton" class="btn" type="submit" value="Sign In">
+  </form>
+  <a href="">Already signed up? Sign In Here. </a>
+</body>
+</html>

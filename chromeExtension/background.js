@@ -1,14 +1,5 @@
 'use strict';
 
-var user = {
-  firstName: "Derrick",
-  lastName: "Persson",
-  email: "derrickpersson@gmail.com",
-  kindleEmail: "derrickpersson@kindle.com"
-}
-
-
-
 chrome.runtime.onInstalled.addListener(function() {
   chrome.storage.sync.set(
     { user: user }, function() {
@@ -18,7 +9,7 @@ chrome.runtime.onInstalled.addListener(function() {
     if (data.signed_in) {
       chrome.browserAction.setPopup({popup: 'popup.html'});
     } else {
-      chrome.tabs.create({url: 'sign_up.html'});
+      chrome.tabs.create({url: 'oAuth.html'});
     }
   });
 

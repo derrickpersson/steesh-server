@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
         var resp = JSON.parse(xhr.responseText);
         resp.signed_in = true;
         chrome.storage.sync.set(resp, function(){
+          console.log("Response: ", resp);
         })
       }
     }

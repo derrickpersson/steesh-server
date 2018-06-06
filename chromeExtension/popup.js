@@ -5,12 +5,14 @@ document.addEventListener('DOMContentLoaded', function() {
       active: true,
       currentWindow: true
     }, function(tabs){
-      chrome.storage.local.get('user', function(user){
+      chrome.storage.local.get(null, function(storage){
         let data = {
           URL: tabs[0].url,
-          user: user
+          userID: storage.userID
         }
-        console.log("User: ", user);
+        var allkeys = Object.keys(storage);
+        console.log("Storage: ", allkeys);
+        console.log("User: ", storage.userID);
         console.log("Data: ", data);
         var xhr = new XMLHttpRequest();
         // xhr.withCredentials = true;

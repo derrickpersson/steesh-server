@@ -38,8 +38,10 @@ app.post('/getPDF', (req, res) => {
       console.error(`exec error: ${error}`);
       return;
     }
-
-    sendToKindle(user, parsedTitle, function(body){
+    datahelpers.getUserByID(req.body.userID)
+      .then(function(user){
+        sendToKindle(user, parsedTitle, function(body){
+      })
     })
   })
 
@@ -53,7 +55,7 @@ app.post('/signup', (request, response) => {
     let userData = {
       userID: data[0]
     }
-    
+
     response.send(JSON.stringify(userData));
   })
 })

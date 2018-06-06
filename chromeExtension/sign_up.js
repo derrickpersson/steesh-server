@@ -17,7 +17,10 @@ document.addEventListener('DOMContentLoaded', function() {
     xhr.onreadystatechange = function() {
       if (xhr.readyState == 4) {
         // JSON.parse does not evaluate the attacker's scripts.
-        // var resp = JSON.parse(xhr.responseText);
+        var resp = JSON.parse(xhr.responseText);
+        resp.signed_in = true;
+        chrome.storage.sync.set(resp, function(){
+        })
       }
     }
     xhr.setRequestHeader("Content-Type", "application/json");

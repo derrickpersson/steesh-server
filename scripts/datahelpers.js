@@ -2,7 +2,7 @@ module.exports = function makeDataHelpers(db) {
   return {
     insertUser: function(userData){
       let {firstName, lastName, email, kindleEmail, password } = userData;
-      return db('users').insert({
+      return db('users').returning('id').insert({
         firstName: firstName,
         lastName: lastName,
         email: email,
@@ -10,8 +10,8 @@ module.exports = function makeDataHelpers(db) {
         password: password
       });
     },
-    getUserByEmail: function(email) {
-      return db.select("*").from('users').where('email', email);
+    getUserByID: function(id) {
+      return db.select("*").from('users').where('id', id);
     }
   }
 }

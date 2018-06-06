@@ -33,7 +33,7 @@ app.get('/', (req, res) => res.render('index'))
 app.post('/getPDF', (req, res) => {
   console.log("Req: ", req.body);
   let parsedTitle = parseTitle(req.body.URL);
-  execFile("phantomjs", ["rasterize.js", req.body.URL, `./results/${parsedTitle}.pdf`, "Letter"], (error, stdout, stderr) => {
+  execFile("phantomjs", ["./scripts/rasterize.js", req.body.URL, `./results/${parsedTitle}.pdf`, "Letter"], (error, stdout, stderr) => {
     if (error) {
       console.error(`exec error: ${error}`);
       return;
@@ -49,8 +49,12 @@ app.post('/getPDF', (req, res) => {
 app.post('/signup', (request, response) => {
   let data = request.body;
   datahelpers.insertUser(data).then((data) => {
-    console.log('Submitted User: ', data);
-    response.send("Everything is good!");
+
+    let userData = {
+      userID: data[0]
+    }
+    
+    response.send(JSON.stringify(userData));
   })
 })
 

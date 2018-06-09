@@ -18,9 +18,8 @@ document.addEventListener('DOMContentLoaded', function() {
       if (xhr.readyState == 4) {
         // JSON.parse does not evaluate the attacker's scripts.
         var resp = JSON.parse(xhr.responseText);
-        resp.signed_in = true;
-        chrome.storage.sync.set(resp, function(){
-          console.log("Response: ", resp);
+        var userID = resp.userID;
+        chrome.storage.sync.set({"userID": userID, "signed_in": true}, function(){
         })
       }
     }

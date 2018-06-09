@@ -2,7 +2,7 @@
 
 chrome.runtime.onInstalled.addListener(function() {
 
-  chrome.storage.local.get('signed_in', function(data) {
+  chrome.storage.local.get(['signed_in'], function(data) {
     if (data.signed_in) {
       chrome.browserAction.setPopup({popup: 'popup.html'});
     } else {

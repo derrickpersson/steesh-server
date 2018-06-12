@@ -1,13 +1,12 @@
 module.exports = function makeDataHelpers(db) {
   return {
     insertUser: function(userData){
-      let {firstName, lastName, email, kindleEmail, password } = userData;
+      let {firstName, lastName, email, kindleEmail } = userData;
       return db('users').returning('id').insert({
         firstName: firstName,
         lastName: lastName,
         email: email,
-        kindleEmail: kindleEmail,
-        password: password
+        kindleEmail: kindleEmail
       });
     },
     getUserByID: function(id) {

@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
       active: true,
       currentWindow: true
     }, function(tabs){
-      chrome.storage.local.get(null, function(storage){
+      chrome.storage.sync.get(null, function(storage){
         let data = {
           URL: tabs[0].url,
           userID: storage.userID

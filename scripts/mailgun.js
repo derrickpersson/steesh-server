@@ -9,11 +9,12 @@ const mailgun = require('mailgun-js')({ apiKey: api_key, domain: DOMAIN });
 
 function sendToKindle(user, title, cb){
 
-  let {firstName, lastName, email, kindleEmail } = user;
+  let { firstName, lastName, email, kindleEmail } = user;
   let filepath = path.join(__dirname, `../results/${title}.pdf`);
+  let fromLine = `${firstName} ${lastName} <${email}>`;
 
   let data = {
-    from: `${firstName} ${lastName} <${email}>`,
+    from: fromLine,
     to: kindleEmail,
     cc: email,
     subject: "Convert",

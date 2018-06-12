@@ -40,7 +40,7 @@ app.post('/getPDF', (req, res) => {
     }
     datahelpers.getUserByID(req.body.userID)
       .then(function(user){
-        sendToKindle(user, parsedTitle, function(body){
+        sendToKindle(user[0], parsedTitle, function(body){
       })
     })
   })

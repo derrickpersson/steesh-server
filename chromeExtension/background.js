@@ -10,6 +10,20 @@ chrome.runtime.onInstalled.addListener(function() {
     }
   });
 
+  chrome.storage.onChanged.addListener(function(changes, areaName) {
+  console.log("Changes: ", changes);
+  console.log("areaName: ", areaName);
+  chrome.storage.local.get(['signed_in'], function(data) {
+      if (data.signed_in) {
+        chrome.browserAction.setPopup({popup: 'popup.html'});
+      } else {
+        chrome.browserAction.setPopup({popup: 'sign_up.html'});
+      }
+    });
+
+  });
+
+
 });
 
 

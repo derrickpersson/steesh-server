@@ -2,7 +2,6 @@ const express = require('express')
 const bodyParser = require("body-parser");
 const request = require('request');
 const fs = require('fs');
-const { spawn, execFile } = require('child_process');
 const { sendToKindle } = require('./scripts/mailgun.js');
 const { parseTitle } = require('./scripts/parseTitle');
 const ENV = process.env.ENV || "development";
@@ -10,6 +9,7 @@ const knexConfig = require("./db/knexfile");
 const knex = require("knex")(knexConfig[ENV]);
 const knexLogger = require('knex-logger');
 const datahelpers = require('./scripts/datahelpers.js')(knex);
+const { convertToPDF } = require('./scripts/convertToPDF.js');
 
 const app = express();
 
@@ -33,17 +33,20 @@ app.get('/', (req, res) => res.render('index'))
 app.post('/getPDF', (req, res) => {
   console.log("Req: ", req.body);
   let parsedTitle = parseTitle(req.body.URL);
-  execFile("phantomjs", ["./scripts/rasterize.js", req.body.URL, `./results/${parsedTitle}.pdf`, "Letter"], (error, stdout, stderr) => {
-    if (error) {
-      console.error(`exec error: ${error}`);
-      return;
-    }
-    datahelpers.getUserByID(req.body.userID)
-      .then(function(user){
-        sendToKindle(user[0], parsedTitle, function(body){
+  convertToPDF(req.body.URL, parsedTitle)
+    .then((result) => {
+      console.log("First promise resolved: ", result);
+      datahelpers.getUserByID(req.body.userID)
+        .then(function(users){
+          let user = users[0];
+          console.log("Sending to Kindle: ")
+          sendToKindle(user, parsedTitle, function(body){
+            console.log("Finished sending...");
+        });
       })
+    }).catch((error) => {
+      console.error("error: ", error);
     })
-  })
 
   res.send("Getting website as PDF now...");
 })

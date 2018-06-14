@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
   console.log("Document Ready");
   let logInForm = document.getElementById('logInForm');
-  console.log(logInForm);
   logInForm.addEventListener('submit', function(event){
     event.preventDefault();
     var formData = {};
@@ -10,22 +9,28 @@ document.addEventListener('DOMContentLoaded', function() {
         formData[logInForm.elements[property].id] = logInForm.elements[property].value;
       }
     }
-    console.log(formData);
-    var xhr = new XMLHttpRequest();
-    // xhr.withCredentials = true;
-    xhr.open("POST", "http://127.0.0.1:8080/signup", true);
-    xhr.onreadystatechange = function() {
-      if (xhr.readyState == 4) {
-        // JSON.parse does not evaluate the attacker's scripts.
-        var resp = JSON.parse(xhr.responseText);
-        var userID = resp.userID;
-        chrome.storage.sync.set({"userID": userID, "signed_in": true}, function(){
-        })
-      }
-    }
-    xhr.setRequestHeader("Content-Type", "application/json");
-    xhr.send(JSON.stringify(formData));
+    sendForm(formData)
+      .then(function(response){
+        console.log("response: ", response);
+        var userID = response.userID;
+        chrome.storage.sync.set({"userID": userID, "signed_in": true});
+      })
   });
 
 
 });
+
+function sendForm(data){
+  return fetch("http://127.0.0.1:8080/signup", {
+    body: JSON.stringify(data),
+    cache: 'no-cache',
+    credentials: 'same-origin',
+    headers: {
+      'content-type': 'application/json'
+    },
+    method: 'POST',
+    mode: 'cors'
+  }).then(function(response){
+    return response.json();
+  })
+}

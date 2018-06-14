@@ -54,9 +54,7 @@ function sendData(data){
     },
     method: 'POST',
     mode: 'cors'
-  }).then(function(response){
-      response.json();
-    })
+  })
 }
 
 

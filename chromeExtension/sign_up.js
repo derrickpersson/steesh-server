@@ -11,7 +11,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     sendForm(formData)
       .then(function(response){
-        console.log("response: ", response);
         var userID = response.userID;
         chrome.storage.sync.set({"userID": userID, "signed_in": true});
       })

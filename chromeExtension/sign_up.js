@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-  console.log("Document Ready");
   let logInForm = document.getElementById('logInForm');
   logInForm.addEventListener('submit', function(event){
     event.preventDefault();

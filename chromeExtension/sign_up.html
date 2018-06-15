@@ -8,7 +8,7 @@
 <body>
   <section class="section">
     <div class="container">
-      <h3> Get started with Steesh! </h3>
+      <h3 class="is-text"> Get started with <strong>Steesh!</strong> </h3>
       <form id="logInForm">
         <div class="field">
           <label class="label" for="firstName">First Name:</label>
@@ -23,11 +23,21 @@
           </div>
         </div>
         <div class="field">
-        <label for="email">Email:</label>
-        <input id="email" type="text" name="email" required pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$">
-        <label for="kindleEmail">Kindle Email:</label>
-        <input id="kindleEmail" type="text" name="email" required pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$">
-        <input id="formButton" class="btn" type="submit" value="Sign In">
+          <label class="label" for="email">Email:</label>
+          <div class="control">
+            <input id="email" type="text" name="email" required pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$">
+          </div>
+        </div>
+        <div class="field">
+          <label class="label" for="kindleEmail">Kindle Email:</label>
+          <div class="control">
+            <input id="kindleEmail" type="text" name="email" required pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$">
+          </div>
+          <div class="field">
+            <div class="control">
+              <input id="formButton" class="button is-primary" type="submit" value="Sign In">
+            </div>
+          </div>
       </form>
     </div>
   </section>

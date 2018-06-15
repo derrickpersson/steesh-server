@@ -1,28 +1,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <style>
-    .btn {
-      background-color: hotpink;
-      padding: 1.1em;
-      margin: 0.3em;
-      width: 100%;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="./index.css">
   <script src="sign_up.js"></script>
 </head>
 <body>
-  <h3> Get started with Steesh! </h3>
-  <form id="logInForm">
-    <label for="firstName">First Name:</label>
-    <input id="firstName" type="text" name="firstName" required>
-    <label for="lastName">Last Name:</label>
-    <input id="lastName" type="text" name="lastName" required>
-    <label for="email">Email:</label>
-    <input id="email" type="text" name="email" required pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$">
-    <label for="kindleEmail">Kindle Email:</label>
-    <input id="kindleEmail" type="text" name="email" required pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$">
-    <input id="formButton" class="btn" type="submit" value="Sign In">
-  </form>
+  <section class="section">
+    <div class="container">
+      <h3> Get started with Steesh! </h3>
+      <form id="logInForm">
+        <div class="field">
+          <label class="label" for="firstName">First Name:</label>
+          <div class="control">
+            <input id="firstName" type="text" name="firstName" required>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label" for="lastName">Last Name:</label>
+          <div class="control">
+            <input id="lastName" type="text" name="lastName" required>
+          </div>
+        </div>
+        <div class="field">
+        <label for="email">Email:</label>
+        <input id="email" type="text" name="email" required pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$">
+        <label for="kindleEmail">Kindle Email:</label>
+        <input id="kindleEmail" type="text" name="email" required pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$">
+        <input id="formButton" class="btn" type="submit" value="Sign In">
+      </form>
+    </div>
+  </section>
 </body>
 </html>

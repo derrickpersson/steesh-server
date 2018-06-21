@@ -35,13 +35,10 @@ app.post('/getPDF', (req, res) => {
   let parsedTitle = parseTitle(req.body.URL);
   convertToPDF(req.body.URL, parsedTitle)
     .then((result) => {
-      console.log("First promise resolved: ", result);
       datahelpers.getUserByID(req.body.userID)
         .then(function(users){
           let user = users[0];
-          console.log("Sending to Kindle: ")
           sendToKindle(user, parsedTitle, function(body){
-            console.log("Finished sending...");
         });
       })
     }).catch((error) => {

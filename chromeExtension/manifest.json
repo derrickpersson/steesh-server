@@ -1,7 +1,7 @@
   {
     "name": "Steesh",
     "version": "1.0",
-    "description": "Save articles for later on your e-reader!",
+    "description": "Save articles for later on your Kindle!",
     "author": "Derrick Persson",
     "permissions": ["activeTab", "declarativeContent", "storage", "tabs"],
     "background": {
@@ -10,12 +10,12 @@
     },
     "browser_action": {
       "default_icon":{
-        "16": "images/get_started16.png",
-        "32": "images/get_started32.png",
-        "48": "images/get_started48.png",
-        "128": "images/get_started128.png"        
+        "16": "images/SteeshLogoSmall.png",
+        "32": "images/SteeshLogoMedium.png",
+        "48": "images/SteeshLogoLarge.png",
+        "128": "images/SteeshLogoLarge.png"        
       },
-      "default_title": "Steesh - Click to send this article to your e-reader!"
+      "default_title": "Steesh - Click to send this article to your Kindle!"
     },
     "manifest_version": 2
   }

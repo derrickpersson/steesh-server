@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
   let logInForm = document.getElementById('logInForm');
+  let formSection = document.getElementById('formSection');
   logInForm.addEventListener('submit', function(event){
     event.preventDefault();
     var formData = {};
@@ -12,6 +13,9 @@ document.addEventListener('DOMContentLoaded', function() {
       .then(function(response){
         var userID = response.userID;
         chrome.storage.sync.set({"userID": userID, "signed_in": true});
+      })
+      .then(function(){
+        formSection.innerHTML = generateSubmissionHTML();
       })
   });
 
@@ -31,4 +35,17 @@ function sendForm(data){
   }).then(function(response){
     return response.json();
   })
+}
+
+function generateSubmissionHTML(){
+  return `<section class="section">
+      <div class="container">
+        <h1 class="title">
+          Thank you for signing up!
+        </h1>
+        <p>
+          To get started, browse to an article you'd like to read then click the Steesh icon <img src="images/SteeshlogoLarge.png" style="height: 1.25em"> in the top right bar. The article will be sent to your Kindle; please allow a few moments for it to come through.
+        </p>
+      </div>
+    </section>`;
 }

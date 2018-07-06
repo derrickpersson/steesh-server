@@ -1,5 +1,8 @@
 'use strict';
 
+// Global scope variables... because everyone makes bad coding decisions at midnight
+let keep_switching_icon = true; 
+
 chrome.runtime.onInstalled.addListener(function() {
 
   chrome.storage.sync.get(['signed_in'], function(data) {
@@ -17,13 +20,13 @@ chrome.runtime.onInstalled.addListener(function() {
   chrome.storage.onChanged.addListener(function(changes, areaName) {
   chrome.storage.sync.get(['signed_in'], function(data) {
       if (data.signed_in) {
-        chrome.browserAction.onClicked.addListener(function(tab) { 
+        chrome.browserAction.onClicked.addListener(function(tab) {
           rotateIcon()
+          console.log("Calling RotateIcon: ", rotateIcon);
           createDataPackageToSend(tab.url).then(function(data){
             sendData(data)
-              .then(function(response){
-                chrome.browserAction.setIcon({path:"images/SteeshLogoMedium.png"});
-              })
+            keep_switching_icon = false;
+            chrome.browserAction.setIcon({path:"images/SteeshLogoMedium.png"});
           })
         });
       } else {
@@ -64,8 +67,6 @@ function sendData(data){
 var min = 1;
 var max = 12;
 var current = min;
-
-var keep_switching_icon = true;
 
 function rotateIcon() {
   if (keep_switching_icon) {

@@ -13,7 +13,6 @@ const { convertToPDF } = require('./scripts/convertToPDF.js');
 
 const app = express();
 
-app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({
   extended: true
 }));

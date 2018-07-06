@@ -18,8 +18,12 @@ chrome.runtime.onInstalled.addListener(function() {
   chrome.storage.sync.get(['signed_in'], function(data) {
       if (data.signed_in) {
         chrome.browserAction.onClicked.addListener(function(tab) { 
+          rotateIcon()
           createDataPackageToSend(tab.url).then(function(data){
-            sendData(data);
+            sendData(data)
+              .then(function(response){
+                chrome.browserAction.setIcon({path:"images/SteeshLogoMedium.png"});
+              })
           })
         });
       } else {
@@ -57,5 +61,21 @@ function sendData(data){
   })
 }
 
+var min = 1;
+var max = 12;
+var current = min;
+
+var keep_switching_icon = true;
+
+function rotateIcon() {
+  if (keep_switching_icon) {
+    chrome.browserAction.setIcon({path:"images/loading" + current + ".png"});
+    if (current++ === max) {
+      current = min;
+    };
+
+    window.setTimeout(rotateIcon, 75);
+  }
+}
 
 

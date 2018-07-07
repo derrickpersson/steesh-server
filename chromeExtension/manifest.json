@@ -17,5 +17,6 @@
       },
       "default_title": "Steesh - Click to send this article to your Kindle!"
     },
+    "options_page": "sign_up.html",
     "manifest_version": 2
   }

@@ -8,11 +8,13 @@ chrome.runtime.onInstalled.addListener(function() {
   chrome.storage.sync.get(['signed_in'], function(data) {
     if (data.signed_in) {
       chrome.browserAction.onClicked.addListener(function(tab) { 
-        rotateIcon()
+        rotateIcon();
         createDataPackageToSend(tab.url).then(function(data){
           sendData(data);
           keep_switching_icon = false;
-          chrome.browserAction.setIcon({ path: "images/SteeshLogo16.png" });
+          chrome.browserAction.setIcon({ path: "images/SteeshLogo16.png" }, function(){
+            console.log("Just set Steesh Icon");
+          });
         })
       });
     } else {
@@ -73,7 +75,9 @@ var current = min;
 
 function rotateIcon() {
   if (keep_switching_icon) {
-    chrome.browserAction.setIcon({path:"images/loading" + current + ".png"});
+    chrome.browserAction.setIcon({path:"images/loading" + current + ".png"}, function(){
+      console.log("Just set " + current + " loading icon.");
+    });
     if (current++ === max) {
       current = min;
     };

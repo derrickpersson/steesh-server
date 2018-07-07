@@ -67,11 +67,13 @@ function rotateIcon() {
 
 function handleSubmission(tab){
   const intId = setInterval(rotateIcon, 75);
+  chrome.browserAction.disable(tab.id);
   createDataPackageToSend(tab.url).then(function(data){
     sendData(data);
     setTimeout(() => {
       clearInterval(intId);
       chrome.browserAction.setIcon({ path: "images/SteeshLogo16.png" });
+      chrome.browserAction.enable(tab.id);
     }, 1000);
   });
 }

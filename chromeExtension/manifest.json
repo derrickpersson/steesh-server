@@ -9,6 +9,12 @@
       "persistent": false
     },
     "browser_action": {
+      "default_icon":{
+        "16": "images/SteeshLogo16.png",
+        "32": "images/SteeshLogoMedium.png",
+        "48": "images/SteeshLogoLarge.png",
+        "128": "images/SteeshLogoLarge.png"        
+      },
       "default_title": "Steesh - Click to send this article to your Kindle!"
     },
     "manifest_version": 2

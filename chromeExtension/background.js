@@ -8,8 +8,11 @@ chrome.runtime.onInstalled.addListener(function() {
   chrome.storage.sync.get(['signed_in'], function(data) {
     if (data.signed_in) {
       chrome.browserAction.onClicked.addListener(function(tab) { 
+        rotateIcon()
         createDataPackageToSend(tab.url).then(function(data){
           sendData(data);
+          keep_switching_icon = false;
+          chrome.browserAction.setIcon({ path: "images/SteeshLogo16.png" });
         })
       });
     } else {
@@ -21,12 +24,12 @@ chrome.runtime.onInstalled.addListener(function() {
   chrome.storage.sync.get(['signed_in'], function(data) {
       if (data.signed_in) {
         chrome.browserAction.onClicked.addListener(function(tab) {
-          rotateIcon()
-          console.log("Calling RotateIcon: ", rotateIcon);
           createDataPackageToSend(tab.url).then(function(data){
+            // console.log("Calling RotateIcon: ", rotateIcon);
+            // rotateIcon();
             sendData(data)
-            keep_switching_icon = false;
-            chrome.browserAction.setIcon({path:"images/SteeshLogoMedium.png"});
+            // keep_switching_icon = false;
+            // chrome.browserAction.setIcon({path:"images/SteeshLogoMedium.png"});
           })
         });
       } else {

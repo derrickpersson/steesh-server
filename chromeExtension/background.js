@@ -1,21 +1,11 @@
 'use strict';
 
-// Global scope variables... because everyone makes bad coding decisions at midnight
-let keep_switching_icon = true; 
-
 chrome.runtime.onInstalled.addListener(function() {
 
   chrome.storage.sync.get(['signed_in'], function(data) {
     if (data.signed_in) {
       chrome.browserAction.onClicked.addListener(function(tab) { 
-        rotateIcon();
-        createDataPackageToSend(tab.url).then(function(data){
-          sendData(data);
-          keep_switching_icon = false;
-          chrome.browserAction.setIcon({ path: "images/SteeshLogo16.png" }, function(){
-            console.log("Just set Steesh Icon");
-          });
-        })
+        handleSubmission(tab);
       });
     } else {
       chrome.tabs.create({url: 'sign_up.html'});
@@ -26,13 +16,7 @@ chrome.runtime.onInstalled.addListener(function() {
   chrome.storage.sync.get(['signed_in'], function(data) {
       if (data.signed_in) {
         chrome.browserAction.onClicked.addListener(function(tab) {
-          createDataPackageToSend(tab.url).then(function(data){
-            // console.log("Calling RotateIcon: ", rotateIcon);
-            // rotateIcon();
-            sendData(data)
-            // keep_switching_icon = false;
-            // chrome.browserAction.setIcon({path:"images/SteeshLogoMedium.png"});
-          })
+          handleSubmission(tab);
         });
       } else {
         chrome.browserAction.setPopup({popup: 'sign_up.html'});
@@ -69,21 +53,27 @@ function sendData(data){
   })
 }
 
-var min = 1;
-var max = 12;
-var current = min;
+
+const min = 1;
+const max = 12;
+let current = min;
 
 function rotateIcon() {
-  if (keep_switching_icon) {
-    chrome.browserAction.setIcon({path:"images/loading" + current + ".png"}, function(){
-      console.log("Just set " + current + " loading icon.");
-    });
-    if (current++ === max) {
-      current = min;
-    };
+  chrome.browserAction.setIcon({path:"images/loading" + current + ".png"});
+  if (current++ === max) {
+    current = min;
+  };
+}
 
-    window.setTimeout(rotateIcon, 75);
-  }
+function handleSubmission(tab){
+  const intId = setInterval(rotateIcon, 75);
+  createDataPackageToSend(tab.url).then(function(data){
+    sendData(data);
+    setTimeout(() => {
+      clearInterval(intId);
+      chrome.browserAction.setIcon({ path: "images/SteeshLogo16.png" });
+    }, 1000);
+  });
 }
 
 

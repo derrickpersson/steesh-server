@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var formData = {};
     for(var property in logInForm.elements){
       if(logInForm.elements.hasOwnProperty(property)){
-        formData[logInForm.elements[property].id] = logInForm.elements[property].value;
+        formData[logInForm.elements[property].id] = sanitize(logInForm.elements[property].value);
       }
     }
     sendForm(formData)
@@ -39,6 +39,20 @@ function sendForm(data){
     return response.json();
   })
 }
+
+function sanitize(string) {
+  const map = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#x27;',
+      "/": '&#x2F;',
+  };
+  const reg = /[&<>"'/]/ig;
+  return string.replace(reg, (match) => ( map[match]) );
+}
+
 
 function generateSubmissionHTML(){
   return `<section class="section">

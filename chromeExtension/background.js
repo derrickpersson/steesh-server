@@ -1,31 +1,30 @@
 'use strict';
 
 chrome.runtime.onInstalled.addListener(function() {
-
   chrome.storage.sync.get(['signed_in'], function(data) {
-    if (data.signed_in) {
-      chrome.browserAction.onClicked.addListener(function(tab) { 
-        handleSubmission(tab);
-      });
-    } else {
+    if (!data.signed_in) {
       chrome.tabs.create({url: 'sign_up.html'});
     }
   });
+});
 
-  chrome.storage.onChanged.addListener(function(changes, areaName) {
+chrome.storage.onChanged.addListener(function(changes, areaName) {
   chrome.storage.sync.get(['signed_in'], function(data) {
-      if (data.signed_in) {
-        chrome.browserAction.onClicked.addListener(function(tab) {
-          handleSubmission(tab);
-        });
-      } else {
-        chrome.browserAction.setPopup({popup: 'sign_up.html'});
+      if (!data.signed_in) {
+        chrome.tabs.create({url: 'sign_up.html'});
       }
     });
 
+});
+
+chrome.browserAction.onClicked.addListener(function(tab) { 
+  chrome.storage.sync.get(['signed_in'], function(data) {
+    if (!data.signed_in) {
+      chrome.tabs.create({url: 'sign_up.html'});
+    }else{
+      handleSubmission(tab);
+    }
   });
-
-
 });
 
 function createDataPackageToSend(URL){

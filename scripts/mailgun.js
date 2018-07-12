@@ -16,7 +16,6 @@ function sendToKindle(user, title, cb){
   let data = {
     from: fromLine,
     to: kindleEmail,
-    cc: email,
     subject: "Convert",
     text: "Sending article to Kindle",
     attachment: filepath

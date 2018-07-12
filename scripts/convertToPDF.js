@@ -1,5 +1,4 @@
 const { spawn, execFile } = require('child_process');
-const { parseTitle } = require('./parseTitle');
 
 function convertToPDF(URL, parsedTitle){
   return new Promise((resolve, reject) => {

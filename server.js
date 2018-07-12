@@ -37,7 +37,10 @@ app.post('/getPDF', (req, res) => {
       datahelpers.getUserByID(req.body.userID)
         .then(function(users){
           let user = users[0];
-          sendToKindle(user, parsedTitle, function(body){
+          sendToKindle(user, parsedTitle, function(body, error){
+            if(error){
+              console.error("error: ", error);
+            }
         });
       })
     }).catch((error) => {

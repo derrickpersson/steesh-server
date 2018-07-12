@@ -15,6 +15,9 @@ document.addEventListener('DOMContentLoaded', function() {
         chrome.storage.sync.set({"userID": userID, "signed_in": true});
       })
       .then(function(){
+        while(formSection.firstChild){
+          formSection.removeChild(formSection.firstChild);
+        }
         formSection.innerHTML = generateSubmissionHTML();
       })
   });

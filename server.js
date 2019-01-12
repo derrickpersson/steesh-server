@@ -30,7 +30,6 @@ app.use(function(req, res, next) {
 app.get('/', (req, res) => res.render('index'))
 
 app.post('/getPDF', (req, res) => {
-  console.log("Req: ", req.body);
   let parsedTitle = parseTitle(req.body.URL);
   convertToPDF(req.body.URL, parsedTitle)
     .then((result) => {

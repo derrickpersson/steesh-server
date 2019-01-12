@@ -3,3 +3,4 @@ node_modules/
 *.pdf
 steeshServer.pem
 .DS_Store
+chromeExtension/.DS_Store

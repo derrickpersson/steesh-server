@@ -1,17 +1,15 @@
-const { execFile } = require('child_process');
+const puppeteer = require('puppeteer');
 
-function convertToPDF(URL, parsedTitle){
-  return new Promise((resolve, reject) => {
-    execFile("phantomjs", ["./scripts/rasterize.js", URL, `./results/${parsedTitle}.pdf`, "Letter"], function(err, stdout, stderr){
-      if(err) {
-        reject(err);
-      }
-      resolve(stdout);
+const convertToPDF =  async (url, parsedTitle) => {
+  return await puppeteer.launch().then(async browser => {
+    const page = await browser.newPage();
+    await page.goto(url);
+    await page.pdf({
+      path: `./results/${parsedTitle}.pdf`,
     })
+    await browser.close();
   });
-};
-
-
+}
 
 module.exports = {
   convertToPDF: convertToPDF

@@ -1,15 +1,19 @@
 const express = require('express')
 const bodyParser = require("body-parser");
-const request = require('request');
-const fs = require('fs');
-const { sendToKindle } = require('./scripts/mailgun.js');
 const { parseTitle } = require('./scripts/parseTitle');
 const ENV = process.env.ENV || "development";
 const knexConfig = require("./db/knexfile");
 const knex = require("knex")(knexConfig[ENV]);
 const knexLogger = require('knex-logger');
 const datahelpers = require('./scripts/datahelpers.js')(knex);
-const { convertToPDF } = require('./scripts/convertToPDF.js');
+const puppeteer = require('puppeteer');
+const convertToPDF = require("./scripts/convertToPDF.js")(puppeteer);
+const DOMAIN = process.env.DOMAIN;
+const api_key = process.env.MG_KEY;
+const mailgun = require('mailgun-js')({ apiKey: api_key, domain: DOMAIN });
+const emailService = require('./scripts/sendPDF.js')(mailgun);
+
+const PORT = process.env.PORT;
 
 const app = express();
 
@@ -22,12 +26,10 @@ app.use(knexLogger(knex));
 app.use(bodyParser.json())
 
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "chrome-extension://loffpcbdmcgipklnlkoddaeomfhhmfod");
+  res.header("Access-Control-Allow-Origin", `chrome-extension://${process.env.CHROME_EXTENSION_ID}`);
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
-
-app.get('/', (req, res) => res.render('index'))
 
 app.post('/getPDF', (req, res) => {
   let parsedTitle = parseTitle(req.body.URL);
@@ -36,17 +38,20 @@ app.post('/getPDF', (req, res) => {
       datahelpers.getUserByID(req.body.userID)
         .then(function(users){
           let user = users[0];
-          sendToKindle(user, parsedTitle, function(body, error){
+          const data = emailService.createKindleData(user, parsedTitle)
+          emailService.sendPDF(data, function(body, error){
+            // TODO: Record user interaction to analytics tool
+
             if(error){
+              // TODO: Log errors to server
               console.error("error: ", error);
             }
         });
       })
     }).catch((error) => {
+      // TODO: Log errors to server
       console.error("error: ", error);
     })
-
-  res.send("Getting website as PDF now...");
 })
 
 app.post('/signup', (request, response) => {
@@ -62,7 +67,8 @@ app.post('/signup', (request, response) => {
 })
 
 app.get('/profile', (request, response) => {
+  // TODO: Implement profile view feature
   response.send("View your information here.");
 })
 
-app.listen(8080, () => console.log('Example app listening on port 8080!'))
+app.listen(PORT, () => console.log(`Steesh server listening on port ${PORT}!`));

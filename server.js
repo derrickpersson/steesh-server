@@ -9,9 +9,9 @@ const datahelpers = require('./scripts/datahelpers.js')(knex);
 const puppeteer = require('puppeteer');
 const convertToPDF = require("./scripts/convertToPDF.js")(puppeteer);
 const DOMAIN = process.env.DOMAIN;
-const api_key = process.env.MG_KEY;
-const mailgun = require('mailgun-js')({ apiKey: api_key, domain: DOMAIN });
-const emailService = require('./scripts/sendPDF.js')(mailgun);
+const API_KEY = process.env.MG_KEY;
+const mailgun = require('mailgun-js')({ apiKey: API_KEY, domain: DOMAIN });
+const emailService = require('./scripts/emailService.js')(mailgun);
 
 const PORT = process.env.PORT;
 
@@ -23,7 +23,7 @@ app.use(bodyParser.urlencoded({
 
 app.use(knexLogger(knex));
 
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", `chrome-extension://${process.env.CHROME_EXTENSION_ID}`);
@@ -51,8 +51,8 @@ app.post('/getPDF', (req, res) => {
     }).catch((error) => {
       // TODO: Log errors to server
       console.error("error: ", error);
-    })
-})
+    });
+});
 
 app.post('/signup', (request, response) => {
   let data = request.body;
@@ -64,11 +64,6 @@ app.post('/signup', (request, response) => {
 
     response.send(JSON.stringify(userData));
   })
-})
-
-app.get('/profile', (request, response) => {
-  // TODO: Implement profile view feature
-  response.send("View your information here.");
-})
+});
 
 app.listen(PORT, () => console.log(`Steesh server listening on port ${PORT}!`));

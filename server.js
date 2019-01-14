@@ -1,19 +1,16 @@
-const express = require('express')
-const bodyParser = require("body-parser");
-const { parseTitle } = require('./scripts/parseTitle');
-const ENV = process.env.ENV || "development";
-const knexConfig = require("./db/knexfile");
-const knex = require("knex")(knexConfig[ENV]);
-const knexLogger = require('knex-logger');
-const datahelpers = require('./scripts/datahelpers.js')(knex);
-const puppeteer = require('puppeteer');
-const convertToPDF = require("./scripts/convertToPDF.js")(puppeteer).convertToPDF;
-const DOMAIN = process.env.DOMAIN;
-const API_KEY = process.env.MG_KEY;
-const mailgun = require('mailgun-js')({ apiKey: API_KEY, domain: DOMAIN });
-const emailService = require('./scripts/emailService.js')(mailgun);
-const Mixpanel = require('mixpanel');
-const analytics = Mixpanel.init(process.env.ANALYTICS_TOKEN);
+const {
+  express,
+  bodyParser,
+  parseTitle,
+  knexLogger,
+  knex,
+  dataHelpers,
+  convertToPDF,
+  emailService,
+  analytics,
+  morgan,
+  winston
+} = require("./config/appConfig.js");
 
 const PORT = process.env.PORT;
 
@@ -27,6 +24,8 @@ app.use(knexLogger(knex));
 
 app.use(bodyParser.json());
 
+app.use(morgan('combined', { stream: winston.stream }));
+
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", `chrome-extension://${process.env.CHROME_EXTENSION_ID}`);
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -38,7 +37,7 @@ app.post('/getPDF', async (req, res) => {
   let parsedTitle = parseTitle(url);
   try {
     await convertToPDF(url, parsedTitle);
-    const user = await datahelpers.getUserByID(req.body.userID);
+    const user = await dataHelpers.getUserByID(req.body.userID);
     const data = emailService.createKindleData(user, parsedTitle);
     await emailService.sendPDF(data);
     analytics.track('send PDF', {
@@ -47,19 +46,18 @@ app.post('/getPDF', async (req, res) => {
       article_url: url
     });
   } catch (error) {
-    // TODO: Log errors to server
-    console.error("error: ", error);
+    winston.error(`${error.status || 500} - ${error.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
   }
 
 });
 
 app.post('/signup', async (req, res) => {
   let data = req.body;
-  const userID = await datahelpers.insertUser(data);
+  const userID = await dataHelpers.insertUser(data);
   res.send(JSON.stringify({ userID }));
   analytics.track('user sign up', {
     distinct_id: userID
   });
 });
 
-app.listen(PORT, () => console.log(`Steesh server listening on port ${PORT}!`));
+app.listen(PORT, () => console.log(`Application server listening on port ${PORT}!`));

@@ -4,3 +4,4 @@ node_modules/
 steeshServer.pem
 .DS_Store
 chromeExtension/.DS_Store
+logs/

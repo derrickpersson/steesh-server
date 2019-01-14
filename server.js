@@ -9,7 +9,8 @@ const {
   emailService,
   analytics,
   morgan,
-  winston
+  winston,
+  healthCheck
 } = require("./config/appConfig.js");
 
 const PORT = process.env.PORT;
@@ -26,11 +27,22 @@ app.use(bodyParser.json());
 
 app.use(morgan('combined', { stream: winston.stream }));
 
+app.use('/health', healthCheck());
+
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", `chrome-extension://${process.env.CHROME_EXTENSION_ID}`);
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
+
+app.get('/info', async function(req, res) {
+  const packageJson = require("./package.json");
+  res.send({
+    name: packageJson.name,
+    description: packageJson.description,
+    version: packageJson.version
+  });
+})
 
 app.post('/getPDF', async (req, res) => {
   const url = req.body.URL;

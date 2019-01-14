@@ -1,7 +1,7 @@
 {
   "name": "kindleHelper",
   "version": "1.0.0",
-  "description": "",
+  "description": "Simple node js application to send PDF's to emails.",
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js",
@@ -15,6 +15,7 @@
     "dotenv": "^5.0.1",
     "ejs": "^2.5.9",
     "express": "^4.16.3",
+    "express-healthcheck": "^0.1.0",
     "fs": "0.0.1-security",
     "jspdf": "^1.3.5",
     "knex": "^0.14.6",

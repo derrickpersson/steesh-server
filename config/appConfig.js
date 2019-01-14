@@ -16,6 +16,7 @@ const Mixpanel = require('mixpanel');
 const analytics = Mixpanel.init(process.env.ANALYTICS_TOKEN);
 const morgan = require('morgan');
 const winston = require("./winston.js");
+const healthCheck = require('express-healthcheck');
 
 module.exports = {
     express,
@@ -28,5 +29,6 @@ module.exports = {
     emailService,
     analytics,
     morgan,
-    winston
+    winston,
+    healthCheck
 };

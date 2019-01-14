@@ -7,11 +7,13 @@ const knex = require("knex")(knexConfig[ENV]);
 const knexLogger = require('knex-logger');
 const datahelpers = require('./scripts/datahelpers.js')(knex);
 const puppeteer = require('puppeteer');
-const convertToPDF = require("./scripts/convertToPDF.js")(puppeteer);
+const convertToPDF = require("./scripts/convertToPDF.js")(puppeteer).convertToPDF;
 const DOMAIN = process.env.DOMAIN;
 const API_KEY = process.env.MG_KEY;
 const mailgun = require('mailgun-js')({ apiKey: API_KEY, domain: DOMAIN });
 const emailService = require('./scripts/emailService.js')(mailgun);
+const Mixpanel = require('mixpanel');
+const analytics = Mixpanel.init(process.env.ANALYTICS_TOKEN);
 
 const PORT = process.env.PORT;
 
@@ -31,39 +33,33 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.post('/getPDF', (req, res) => {
-  let parsedTitle = parseTitle(req.body.URL);
-  convertToPDF(req.body.URL, parsedTitle)
-    .then((result) => {
-      datahelpers.getUserByID(req.body.userID)
-        .then(function(users){
-          let user = users[0];
-          const data = emailService.createKindleData(user, parsedTitle)
-          emailService.sendPDF(data, function(body, error){
-            // TODO: Record user interaction to analytics tool
-
-            if(error){
-              // TODO: Log errors to server
-              console.error("error: ", error);
-            }
-        });
-      })
-    }).catch((error) => {
-      // TODO: Log errors to server
-      console.error("error: ", error);
+app.post('/getPDF', async (req, res) => {
+  const url = req.body.URL;
+  let parsedTitle = parseTitle(url);
+  try {
+    await convertToPDF(url, parsedTitle);
+    const user = await datahelpers.getUserByID(req.body.userID);
+    const data = emailService.createKindleData(user, parsedTitle);
+    await emailService.sendPDF(data);
+    analytics.track('send PDF', {
+      distinct_id: user.id,
+      article_title: parsedTitle,
+      article_url: url
     });
+  } catch (error) {
+    // TODO: Log errors to server
+    console.error("error: ", error);
+  }
+
 });
 
-app.post('/signup', (request, response) => {
-  let data = request.body;
-  datahelpers.insertUser(data).then((data) => {
-
-    let userData = {
-      userID: data[0]
-    }
-
-    response.send(JSON.stringify(userData));
-  })
+app.post('/signup', async (req, res) => {
+  let data = req.body;
+  const userID = await datahelpers.insertUser(data);
+  res.send(JSON.stringify({ userID }));
+  analytics.track('user sign up', {
+    distinct_id: userID
+  });
 });
 
 app.listen(PORT, () => console.log(`Steesh server listening on port ${PORT}!`));

@@ -3,15 +3,16 @@ const path = require('path');
 
 module.exports = function emailService(sendAPI){
   return {
-    sendPDF(data, cb) {
-      // TODO: Wrap in a promise & properly handle error
-      sendAPI.messages().send(data, function(error, body){
-        if(error){
-          throw error;
-        }
-        
-        cb(body);
-      })
+    sendPDF(data) {
+      return new Promise((resolve, reject) => {
+        sendAPI.messages().send(data, function(error, body){
+          if(error){
+            reject(error);
+          }
+          
+          resolve(body);
+        });
+      });
     },
 
     createKindleData(user, title){

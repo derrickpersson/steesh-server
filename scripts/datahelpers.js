@@ -1,16 +1,18 @@
 module.exports = function makeDataHelpers(db) {
   return {
-    insertUser: function(userData){
+    insertUser: async function(userData){
       let {firstName, lastName, email, kindleEmail } = userData;
-      return db('users').returning('id').insert({
+      const users = await db('users').returning('id').insert({
         firstName: firstName,
         lastName: lastName,
         email: email,
         kindleEmail: kindleEmail
       });
+      return users[0];
     },
-    getUserByID: function(id) {
-      return db.select("*").from('users').where('id', id);
+    getUserByID: async function(id) {
+      const users = await db.select("*").from('users').where('id', id);
+      return users[0];
     }
   }
 }

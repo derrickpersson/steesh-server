@@ -3,7 +3,7 @@ const path = require('path');
 
 module.exports = function emailService(sendAPI){
   return {
-    sendPDF(data) {
+    sendPDF: function sendPDF(data) {
       return new Promise((resolve, reject) => {
         sendAPI.messages().send(data, function(error, body){
           if(error){

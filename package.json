@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start:prod": "node server.js",
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
@@ -32,6 +33,7 @@
     "winston": "^3.1.0"
   },
   "devDependencies": {
+    "jest": "^23.6.0",
     "nodemon": "^1.18.9"
   }
 }

@@ -18,6 +18,11 @@ const morgan = require('morgan');
 const winston = require("./winston.js");
 const healthCheck = require('express-healthcheck');
 
+const HTTPStatus = {
+    OK: 200,
+    serverError: 500
+}
+
 module.exports = {
     express,
     bodyParser,
@@ -30,5 +35,6 @@ module.exports = {
     analytics,
     morgan,
     winston,
-    healthCheck
+    healthCheck,
+    HTTPStatus
 };

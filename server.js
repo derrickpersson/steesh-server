@@ -10,7 +10,8 @@ const {
   analytics,
   morgan,
   winston,
-  healthCheck
+  healthCheck,
+  HTTPStatus
 } = require("./config/appConfig.js");
 
 const PORT = process.env.PORT;
@@ -57,7 +58,9 @@ app.post('/getPDF', async (req, res) => {
       article_title: parsedTitle,
       article_url: url
     });
+    res.sendStatus(HTTPStatus.OK);
   } catch (error) {
+    res.sendStatus(HTTPStatus.serverError);
     winston.error(`${error.status || 500} - ${error.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
   }
 
@@ -66,10 +69,10 @@ app.post('/getPDF', async (req, res) => {
 app.post('/signup', async (req, res) => {
   let data = req.body;
   const userID = await dataHelpers.insertUser(data);
-  res.send(JSON.stringify({ userID }));
   analytics.track('user sign up', {
     distinct_id: userID
   });
+  res.send(JSON.stringify({ userID }));
 });
 
 app.listen(PORT, () => console.log(`Application server listening on port ${PORT}!`));

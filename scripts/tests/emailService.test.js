@@ -1,9 +1,12 @@
 const mockSendAPI = {
     messages: jest.fn(() => { 
-        return {
-            send: jest.fn(() => Promise.resolve()),
+        const result = {
+            send: jest.fn( function (data, callback) {
+                return callback()
+            }),
         };
-     }),
+        return result;
+    }),
 }
 
 const emailService = require('../emailService.js')(mockSendAPI);
@@ -34,6 +37,7 @@ describe("emailService", () => {
     });
 
     test("PDF is emailed", () => {
+        expect.assertions(2);
         const filepath = path.join(__dirname, `../../results/example title.pdf`);
 
         const exampleData = {

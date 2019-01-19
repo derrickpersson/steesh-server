@@ -8,6 +8,7 @@ module.exports = function makeDataHelpers(db) {
         email: email,
         kindleEmail: kindleEmail
       });
+      console.log(users);
       return users[0];
     },
     getUserByID: async function(id) {

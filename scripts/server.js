@@ -11,9 +11,7 @@ const {
   morgan,
   winston,
   healthCheck
-} = require("./config/appConfig.js");
-
-const PORT = process.env.PORT;
+} = require("../config/appConfig.js");
 
 const app = express();
 
@@ -72,4 +70,4 @@ app.post('/signup', async (req, res) => {
   });
 });
 
-app.listen(PORT, () => console.log(`Application server listening on port ${PORT}!`));
+module.exports = app;

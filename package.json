@@ -1,11 +1,11 @@
 {
-  "name": "kindleHelper",
+  "name": "steesh",
   "version": "1.0.0",
   "description": "Simple node js application to send PDF's to emails.",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js",
-    "start:prod": "node server.js",
+    "start": "nodemon app.js",
+    "start:prod": "node app.js",
     "test": "jest"
   },
   "keywords": [],
@@ -34,6 +34,7 @@
   },
   "devDependencies": {
     "jest": "^23.6.0",
-    "nodemon": "^1.18.9"
+    "nodemon": "^1.18.9",
+    "supertest": "^3.4.2"
   }
 }

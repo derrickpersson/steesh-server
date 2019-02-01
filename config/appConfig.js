@@ -18,7 +18,7 @@ const morgan = require('morgan');
 const winston = require("./winston.js");
 const healthCheck = require('express-healthcheck');
 
-const PORT = process.env.PORT;
+const PORT = Number(process.env.PORT);
 
 module.exports = {
     express,

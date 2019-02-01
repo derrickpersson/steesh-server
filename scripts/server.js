@@ -55,8 +55,10 @@ app.post('/getPDF', async (req, res) => {
       article_title: parsedTitle,
       article_url: url
     });
+    res.send(200);
   } catch (error) {
     winston.error(`${error.status || 500} - ${error.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+    res.send(500);
   }
 
 });

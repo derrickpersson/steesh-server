@@ -6,7 +6,7 @@ module.exports = function webCrawlerService(webDriver){
           await page.goto(url);
           await page.pdf({
             path: `./results/${parsedTitle}.pdf`,
-          })
+          });
           await browser.close();
         });
       }

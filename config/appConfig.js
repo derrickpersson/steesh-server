@@ -5,9 +5,9 @@ const ENV = process.env.ENV || "development";
 const knexConfig = require("../db/knexfile");
 const knex = require("knex")(knexConfig[ENV]);
 const knexLogger = require('knex-logger');
-const dataHelpers = require('../scripts/dataHelpers.js')(knex);
+const dataHelpers = require('../scripts/dataHelpers')(knex);
 const puppeteer = require('puppeteer');
-const convertToPDF = require("../scripts/convertToPDF.js")(puppeteer).convertToPDF;
+const convertToPDF = require("../scripts/webCrawlerService.js")(puppeteer).convertToPDF;
 const DOMAIN = process.env.DOMAIN;
 const API_KEY = process.env.MG_KEY;
 const mailgun = require('mailgun-js')({ apiKey: API_KEY, domain: DOMAIN });
@@ -22,6 +22,7 @@ const HTTPStatus = {
     OK: 200,
     serverError: 500
 }
+const PORT = Number(process.env.PORT);
 
 module.exports = {
     express,
@@ -36,5 +37,6 @@ module.exports = {
     morgan,
     winston,
     healthCheck,
-    HTTPStatus
+    HTTPStatus,
+    PORT,
 };

@@ -14,8 +14,6 @@ const {
   HTTPStatus
 } = require("./config/appConfig.js");
 
-const PORT = process.env.PORT;
-
 const app = express();
 
 app.use(bodyParser.urlencoded({
@@ -62,6 +60,7 @@ app.post('/getPDF', async (req, res) => {
   } catch (error) {
     res.sendStatus(HTTPStatus.serverError);
     winston.error(`${error.status || 500} - ${error.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+    res.send(500);
   }
 
 });
@@ -75,4 +74,4 @@ app.post('/signup', async (req, res) => {
   res.send(JSON.stringify({ userID }));
 });
 
-app.listen(PORT, () => console.log(`Application server listening on port ${PORT}!`));
+module.exports = app;

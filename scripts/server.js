@@ -12,7 +12,7 @@ const {
   winston,
   healthCheck,
   HTTPStatus
-} = require("./config/appConfig.js");
+} = require("../config/appConfig.js");
 
 const app = express();
 

@@ -4,8 +4,8 @@
   "description": "Simple node js application to send PDF's to emails.",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon app.js",
-    "start:prod": "node app.js",
+    "start": "nodemon index.js",
+    "start:prod": "node index.js",
     "test": "jest --coverage"
   },
   "keywords": [],

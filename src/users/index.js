@@ -1,4 +1,10 @@
-module.exports = function makeDataHelpers(db) {
+const ENV = process.env.ENV || "development";
+const knexConfig = require("./db/knexfile");
+const knex = require("knex")(knexConfig[ENV]);
+const userService = makeUserService(knex);
+const knexLogger = require('knex-logger');
+
+function makeUserService(db) {
   return {
     insertUser: async function(userData){
       let {firstName, lastName, email, kindleEmail } = userData;
@@ -15,4 +21,9 @@ module.exports = function makeDataHelpers(db) {
       return users[0];
     }
   }
+}
+
+module.exports = {
+  userService,
+  knexLogger: knexLogger(knex),
 }

@@ -21,6 +21,4 @@ function getLastFullElement(array){
   return lastFullIndex;
 }
 
-module.exports = {
-  parseTitle: parseTitle
-};
+module.exports = parseTitle;

@@ -23,7 +23,7 @@ app.use(knexLogger);
 
 app.use(bodyParser.json());
 
-// app.use(morgan('combined', { stream: winston.stream }));
+app.use(morgan('combined', { stream: winston.stream }));
 
 app.use('/health', healthCheck());
 
@@ -76,7 +76,6 @@ app.post('/signup', async (req, res, next) => {
       distinct_id: userID
     });
     res.send(JSON.stringify({ userID }));
-    console.log("SENT!");
   } catch (error) {
     next(error);
   }

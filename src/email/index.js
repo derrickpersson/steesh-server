@@ -28,7 +28,7 @@ function makeEmailService(sendAPI){
 
     createKindleData(user, title){
       let { firstName, lastName, email, kindleEmail } = user;
-      let filepath = path.join(__dirname, `../results/${title}.pdf`);
+      let filepath = path.join(__dirname, `../../results/${title}.pdf`);
       let fromLine = `${firstName} ${lastName} <${email}>`;
     
       return {

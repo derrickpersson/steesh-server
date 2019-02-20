@@ -1,5 +1,4 @@
 require('dotenv').config();
-const morgan = require('morgan');
 
 const HTTPStatus = {
     OK: 200,
@@ -9,7 +8,6 @@ const HTTPStatus = {
 const PORT = Number(process.env.PORT);
 
 module.exports = {
-    morgan,
     HTTPStatus,
     PORT,
 };

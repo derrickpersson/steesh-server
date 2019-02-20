@@ -1,5 +1,4 @@
 const {
-  morgan,
   HTTPStatus
 } = require("../../config/index.js");
 
@@ -10,8 +9,8 @@ const emailService = require("../email/index.js");
 const analytics = require("../analytics/index.js");
 const { userService } = require("../users/index.js");
 const { knexLogger } = require("../users/index.js");
-const winston = require("../logging/winston");
 const healthCheck = require('express-healthcheck');
+const logger = require("../logging");
 
 const app = express();
 
@@ -23,19 +22,13 @@ app.use(knexLogger);
 
 app.use(bodyParser.json());
 
-app.use(morgan('combined', { stream: winston.stream }));
+app.use(logger.general);
 
 app.use('/health', healthCheck());
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", `chrome-extension://${process.env.CHROME_EXTENSION_ID}`);
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
-
-app.use( (error, req, res, next) => {
-  res.sendStatus(HTTPStatus.serverError);
-  winston.error(`${error.status || 500} - ${error.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
   next();
 });
 
@@ -79,6 +72,11 @@ app.post('/signup', async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+});
+
+app.use( (error, req, res) => {
+  res.sendStatus(HTTPStatus.serverError);
+  logger.error(`${error.status || 500} - ${error.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
 });
 
 module.exports = app;

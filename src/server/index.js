@@ -4,8 +4,8 @@ const {
 
 const express = require('express')
 const bodyParser = require("body-parser");
-const pdfService = require("../pdf/index.js");
-const emailService = require("../email/index.js");
+const { pdfService } = require("../pdf/index.js");
+const { emailService } = require("../email/index.js");
 const analytics = require("../analytics/index.js");
 const { userService } = require("../users/index.js");
 const { knexLogger } = require("../users/index.js");
@@ -74,9 +74,10 @@ app.post('/signup', async (req, res, next) => {
   }
 });
 
-app.use( (error, req, res) => {
+app.use( (error, req, res, next) => {
   res.sendStatus(HTTPStatus.serverError);
   logger.error(`${error.status || 500} - ${error.message} - ${req.originalUrl} - ${req.method} - ${req.ip}`);
+  next(error);
 });
 
 module.exports = app;

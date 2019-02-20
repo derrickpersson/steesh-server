@@ -1,4 +1,4 @@
-const { parseTitle } = require("../parseTitle.js");
+const parseTitle = require("../parseTitle.js");
 
 describe("parseTitle", () => {
     test("Normal article title is parsed", () => {

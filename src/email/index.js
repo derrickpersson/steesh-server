@@ -4,14 +4,6 @@ const DOMAIN = process.env.DOMAIN;
 const API_KEY = process.env.MG_KEY;
 const mailgun = require('mailgun-js')({ apiKey: API_KEY, domain: DOMAIN });
 
-
-// TODO: Write adapter to make emailService more generic / I.e. specify the API I want to work with.
-const mailgunAdapter = function(mailgun) {
-  return {
-    send: mailgun.messages().send(data, cb),
-  }
-}
-
 function makeEmailService(sendAPI){
   return {
     sendPDF: function sendPDF(data) {
@@ -44,4 +36,7 @@ function makeEmailService(sendAPI){
 
 const emailService = makeEmailService(mailgun);
 
-module.exports = emailService;
+module.exports = {
+  emailService,
+  makeEmailService,
+}

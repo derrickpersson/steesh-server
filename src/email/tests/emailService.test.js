@@ -9,7 +9,8 @@ const mockSendAPI = {
     }),
 }
 
-const emailService = require('../emailService.js')(mockSendAPI);
+const { makeEmailService } = require("../index");
+const emailService = makeEmailService(mockSendAPI);
 const path = require('path');
 
 describe("emailService", () => {
@@ -23,7 +24,7 @@ describe("emailService", () => {
 
         const testTitle = "example title";
 
-        const filepath = path.join(__dirname, `../../results/example title.pdf`);
+        const filepath = path.join(__dirname, `../../../results/example title.pdf`);
 
         const expectedResult = {
             from: `anyFirstName anyLastName <anyEmail>`,
@@ -38,7 +39,7 @@ describe("emailService", () => {
 
     test("PDF is emailed", () => {
         expect.assertions(2);
-        const filepath = path.join(__dirname, `../../results/example title.pdf`);
+        const filepath = path.join(__dirname, `../results/example title.pdf`);
 
         const exampleData = {
             from: `anyFirstName anyLastName <anyEmail>`,

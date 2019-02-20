@@ -5,7 +5,8 @@ describe("webCrawlerService", () => {
             launch: jest.fn(),
         };
 
-        const webCrawlerService = require("../webCrawlerService")(mockWebCrawler);
+        const { makePdfService } = require("../index.js");
+        const webCrawlerService = makePdfService(mockWebCrawler);
 
         const url = "anyURL";
         const parsedTitle = "any Title";
@@ -37,7 +38,9 @@ describe("webCrawlerService", () => {
             }
         };
 
-        const webCrawlerService = require("../webCrawlerService")(mockWebCrawler);
+        const { makePdfService } = require("../index.js");
+        const webCrawlerService = makePdfService(mockWebCrawler);
+
         const url = "anyURL";
         const parsedTitle = "any Title";
 
@@ -70,7 +73,9 @@ describe("webCrawlerService", () => {
             }
         };
 
-        const webCrawlerService = require("../webCrawlerService")(mockWebCrawler);
+        const { makePdfService } = require("../index.js");
+        const webCrawlerService = makePdfService(mockWebCrawler);
+
         const url = "anyURL";
         const parsedTitle = "any Title";
 
@@ -101,7 +106,9 @@ describe("webCrawlerService", () => {
             }
         };
 
-        const webCrawlerService = require("../webCrawlerService")(mockWebCrawler);
+        const { makePdfService } = require("../index.js");
+        const webCrawlerService = makePdfService(mockWebCrawler);
+
         const url = "anyURL";
         const parsedTitle = "any Title";
 

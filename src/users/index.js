@@ -1,8 +1,6 @@
 const ENV = process.env.ENV || "development";
 const knexConfig = require("./db/knexfile");
 const knex = require("knex")(knexConfig[ENV]);
-const userService = makeUserService(knex);
-const knexLogger = require('knex-logger');
 
 function makeUserService(db) {
   return {
@@ -23,7 +21,12 @@ function makeUserService(db) {
   }
 }
 
+const userService = makeUserService(knex);
+const knexLogger = require('knex-logger')(knex);
+
+
 module.exports = {
   userService,
-  knexLogger: knexLogger(knex),
+  knexLogger,
+  makeUserService,
 }

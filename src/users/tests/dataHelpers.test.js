@@ -24,7 +24,8 @@ describe("datahelpers", () => {
             }
         };
 
-        const dataHelpers = require("../dataHelpers.js")(mockDb);
+        const { makeUserService } = require("../index.js");
+        const dataHelpers = makeUserService(mockDb);
 
         dataHelpers.insertUser(testUser).then(function(userID){
             expect(userID).toBe(mockUsersID[0]);
@@ -58,7 +59,8 @@ describe("datahelpers", () => {
             }
         }
 
-        const dataHelpers = require("../dataHelpers.js")(mockDb);
+        const { makeUserService } = require("../index.js");
+        const dataHelpers = makeUserService(mockDb);
 
         dataHelpers.getUserByID(1).then((user) => {
 

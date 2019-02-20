@@ -1,16 +1,11 @@
 const puppeteer = require('puppeteer');
 const parseTitle = require('./parseTitle.js');
 
-// TODO: write adapter, define generic API to use.
-const puppeteerAdapater = function(){
-  return {};
-}
-
-function makePdfService(webDriver){
+function makePdfService(webCrawler){
   return {
       convertToPDF: async function convertToPDF(url) {
         const parsedTitle = this.parseTitle(url);
-        return await webDriver.launch().then(async browser => {
+        return await webCrawler.launch().then(async browser => {
           const page = await browser.newPage();
           await page.goto(url);
           await page.pdf({
@@ -25,4 +20,7 @@ function makePdfService(webDriver){
 
 const pdfService = makePdfService(puppeteer);
 
-module.exports = pdfService;
+module.exports = {
+  pdfService,
+  makePdfService,
+};

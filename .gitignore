@@ -3,6 +3,6 @@ node_modules/
 *.pdf
 steeshServer.pem
 .DS_Store
-logs/
+logs/*
 coverage/
 npm-debug.log
